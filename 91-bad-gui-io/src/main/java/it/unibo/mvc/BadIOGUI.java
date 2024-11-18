@@ -46,11 +46,19 @@ public class BadIOGUI {
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         canvas.add(panel, BorderLayout.CENTER);
         panel.add(write);
+        final JButton read = new JButton("Read");
+        panel.add(read);
+
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                System.out.println("Ciao");
+            }
+        });
 
         /*
          * Handlers
