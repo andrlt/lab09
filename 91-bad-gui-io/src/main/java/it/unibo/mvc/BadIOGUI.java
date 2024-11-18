@@ -10,8 +10,14 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,7 +44,7 @@ public class BadIOGUI {
     /**
      * Creates a new BadIOGUI.
      */
-    public BadIOGUI() {
+    public BadIOGUI(){
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
         final JButton write = new JButton("Write on file");
@@ -56,7 +62,18 @@ public class BadIOGUI {
         read.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println("Ciao");
+                try (
+                    final InputStream file = new FileInputStream(PATH);
+                    final DataInputStream dStream = new DataInputStream(file);
+                ) {
+                    System.out.println(dStream.readDouble());
+                }catch(FileNotFoundException e1){
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                }catch(IOException e2){
+                    JOptionPane.showMessageDialog(frame, e2, "Error", JOptionPane.ERROR_MESSAGE);
+                }catch(Exception e3){
+                    JOptionPane.showMessageDialog(frame, e3, "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -115,7 +132,7 @@ public class BadIOGUI {
      *
      * @param args ignored
      */
-    public static void main(final String... args) {
+    public static void main (final String... args) {
        new BadIOGUI().display();
     }
 }
